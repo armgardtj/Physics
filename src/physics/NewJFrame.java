@@ -21,7 +21,7 @@ public class NewJFrame extends JFrame {
         frame = new JFrame();
         frame.add(new Menu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(500, 500));
+        frame.setSize(new Dimension(500,500));
         frame.setResizable(false);
         frame.setVisible(true);
         frame.pack();
