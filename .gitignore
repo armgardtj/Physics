@@ -16,3 +16,4 @@ nbactions.xml
 # Package Files #
 *.war
 *.ear
+*.form
