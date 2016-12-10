@@ -5,7 +5,6 @@
  */
 package physics;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,7 +20,7 @@ public class NewJFrame extends JFrame {
         frame = new JFrame();
         frame.add(new Menu());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(500,500));
+        frame.setSize(new Dimension(1000,1000));
         frame.setResizable(false);
         frame.setVisible(true);
         frame.pack();

@@ -8,26 +8,50 @@ package physics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 /**
  *
  * @author John
  */
-public class KinematicsGUI extends javax.swing.JPanel {
+public class KinematicsGUI extends javax.swing.JPanel implements ActionListener {
 
     private Kinematics k;
+    private int x, xf, y, yf, cx, cy;
+    private Double[] xframes, yframes;
+    private long time;
+    private Timer timer;
 
     /**
      * Creates new form KinematicsGUI
      */
-    private Timer timer;
-
     public KinematicsGUI() {
+        k = new Kinematics();
+        x = y = yf = cx = cy = 0;
+        xf = 1000;
+        xframes = yframes = new Double[1000];
         initComponents();
         this.setSize(new Dimension(500, 500));
-        //timer = new Timer(16, );
-        timer.start();
+        time = System.nanoTime();
+        timer = new Timer(1, this);
+
+    }
+
+    public void setXFrames(Double[] x) {
+        if (x == null) {
+            return;
+        }
+        xframes = x;
+    }
+
+    public void setYFrames(Double[] y) {
+        if (y == null) {
+            return;
+        }
+        yframes = y;
     }
 
     /**
@@ -38,9 +62,20 @@ public class KinematicsGUI extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawLine(0, 900, 1000, 900);
         g.setColor(Color.red);
-        g.fillOval(0, 400, 100, 100);
-
+        if (cx == 0 && cy == 0) {
+            g.fillOval(0, 800, 100, 100);
+        }
+        while (xframes[cx] != null && xframes[cx] < time / 1000000000) {
+            cx++;
+        }
+        while (yframes[cy] != null && yframes[cy] < time * 1000000) {
+            cy++;
+        }
+        if (cx > 0 && cy > 0) {
+            g.fillOval(cx, cy, 100, 100);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -56,20 +91,20 @@ public class KinematicsGUI extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        jtX = new javax.swing.JTextField();
+        jtX0 = new javax.swing.JTextField();
+        jtVX = new javax.swing.JTextField();
+        jtVX0 = new javax.swing.JTextField();
+        jtAX = new javax.swing.JTextField();
+        jtY = new javax.swing.JTextField();
+        jtY0 = new javax.swing.JTextField();
+        jtVY = new javax.swing.JTextField();
+        jtVY0 = new javax.swing.JTextField();
+        jtAY = new javax.swing.JTextField();
+        jtT = new javax.swing.JTextField();
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -78,102 +113,102 @@ public class KinematicsGUI extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("x:");
+        jLabel1.setText("xf:");
 
         jLabel2.setText("x0:");
 
-        jLabel3.setText("y:");
+        jLabel3.setText("yf:");
 
         jLabel4.setText("y0:");
 
-        jLabel5.setText("vx:");
+        jLabel5.setText("vxf:");
 
         jLabel6.setText("vx0:");
 
-        jLabel7.setText("vy:");
+        jLabel7.setText("vyf:");
 
         jLabel8.setText("vy0:");
-
-        jTextField1.setText("0");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jTextField2.setText("0");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        jTextField3.setText("0");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        jTextField4.setText("0");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
-        jTextField5.setText("0");
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-
-        jTextField6.setText("0");
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
-
-        jTextField7.setText("0");
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-
-        jTextField8.setText("0");
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
 
         jLabel9.setText("ax:");
 
         jLabel10.setText("ay:");
 
-        jTextField9.setText("0");
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
-
-        jTextField10.setText("0");
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
-            }
-        });
-
         jLabel11.setText("t:");
 
-        jTextField11.setText("0");
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        jtX.setText(String.valueOf(k.getX()));
+        jtX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                jtXActionPerformed(evt);
+            }
+        });
+
+        jtX0.setText(String.valueOf(k.getX0()));
+        jtX0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtX0ActionPerformed(evt);
+            }
+        });
+
+        jtVX.setText(String.valueOf(k.getVx()));
+        jtVX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtVXActionPerformed(evt);
+            }
+        });
+
+        jtVX0.setText(String.valueOf(k.getVx0()));
+        jtVX0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtVX0ActionPerformed(evt);
+            }
+        });
+
+        jtAX.setText(String.valueOf(k.getAx()));
+        jtAX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtAXActionPerformed(evt);
+            }
+        });
+
+        jtY.setText(String.valueOf(k.getY()));
+        jtY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtYActionPerformed(evt);
+            }
+        });
+
+        jtY0.setText(String.valueOf(k.getY0()));
+        jtY0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtY0ActionPerformed(evt);
+            }
+        });
+
+        jtVY.setText(String.valueOf(k.getVy()));
+        jtVY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtVYActionPerformed(evt);
+            }
+        });
+
+        jtVY0.setText(String.valueOf(k.getVy0()));
+        jtVY0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtVY0ActionPerformed(evt);
+            }
+        });
+
+        jtAY.setText(String.valueOf(k.getAy()));
+        jtAY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtAYActionPerformed(evt);
+            }
+        });
+
+        jtT.setText(String.valueOf(k.getT()));
+        jtT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtTActionPerformed(evt);
             }
         });
 
@@ -186,56 +221,55 @@ public class KinematicsGUI extends javax.swing.JPanel {
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(196, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jtX, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jtY, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtY0)
+                            .addComponent(jtX0, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel7))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jTextField11))
+                    .addComponent(jtVY)
+                    .addComponent(jtVX)
+                    .addComponent(jtT, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtVX0)
+                    .addComponent(jtVY0, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtAX, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jtAY, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,37 +279,37 @@ public class KinematicsGUI extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtVX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtVX0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtAX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtVY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtVY0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtAY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtY0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtX0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 366, Short.MAX_VALUE)
+                    .addComponent(jtT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 866, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -284,72 +318,61 @@ public class KinematicsGUI extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         NewJFrame.clear(this, new Menu());
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        if (!Kinematics.setX(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        if (!Kinematics.setVX(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        if (!Kinematics.setY(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        if (!Kinematics.setX0(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        if (!Kinematics.setY0(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        if (!Kinematics.setVY(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-          if (!Kinematics.setVX0(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        if (!Kinematics.setAX(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        if (!Kinematics.setVY0(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField8ActionPerformed
-
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-        if (!Kinematics.setAY(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField10ActionPerformed
-
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
-        if (!Kinematics.setT(jTextField1.getText())) {
-            jTextField1.setText("0");
-        }
-    }//GEN-LAST:event_jTextField11ActionPerformed
+    private void jtXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtXActionPerformed
+        jtX.setText(String.valueOf(k.setX(jtX.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtXActionPerformed
+    private void jtVXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVXActionPerformed
+        jtVX.setText(String.valueOf(k.setVX(jtVX.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtVXActionPerformed
+    private void jtYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtYActionPerformed
+        jtY.setText(String.valueOf(k.setT(jtY.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtYActionPerformed
+    private void jtX0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtX0ActionPerformed
+        jtX0.setText(String.valueOf(k.setX0(jtX0.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtX0ActionPerformed
+    private void jtY0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtY0ActionPerformed
+        jtY0.setText(String.valueOf(k.setY0(jtY0.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtY0ActionPerformed
+    private void jtVYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVYActionPerformed
+        jtVY.setText(String.valueOf(k.setVY(jtVY.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtVYActionPerformed
+    private void jtVX0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVX0ActionPerformed
+        jtVX0.setText(String.valueOf(k.setVX0(jtVX0.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtVX0ActionPerformed
+    private void jtAXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtAXActionPerformed
+        jtAX.setText(String.valueOf(k.setAX(jtAX.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtAXActionPerformed
+    private void jtVY0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVY0ActionPerformed
+        jtVY0.setText(String.valueOf(k.setVY0(jtVY0.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtVY0ActionPerformed
+    private void jtAYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtAYActionPerformed
+        jtAY.setText(String.valueOf(k.setAY(jtAY.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtAYActionPerformed
+    private void jtTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtTActionPerformed
+        jtT.setText(String.valueOf(k.setT(jtT.getText())));
+        k.calculate(this);
+        repaint();
+    }//GEN-LAST:event_jtTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -365,16 +388,71 @@ public class KinematicsGUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jtAX;
+    private javax.swing.JTextField jtAY;
+    private javax.swing.JTextField jtT;
+    private javax.swing.JTextField jtVX;
+    private javax.swing.JTextField jtVX0;
+    private javax.swing.JTextField jtVY;
+    private javax.swing.JTextField jtVY0;
+    private javax.swing.JTextField jtX;
+    private javax.swing.JTextField jtX0;
+    private javax.swing.JTextField jtY;
+    private javax.swing.JTextField jtY0;
     // End of variables declaration//GEN-END:variables
+
+    public Kinematics getK() {
+        return this.k;
+    }
+
+    public void setjTextField1(Double d) {
+        jtX.setText(String.valueOf(d));
+    }
+
+    public void setjTextField2(Double d) {
+        jtY.setText(String.valueOf(d));
+    }
+
+    public void setjTextField3(Double d) {
+        jtVX0.setText(String.valueOf(d));
+    }
+
+    public void setjTextField4(Double d) {
+        jtY0.setText(String.valueOf(d));
+    }
+
+    public void setjTextField5(Double d) {
+        jtVY.setText(String.valueOf(d));
+    }
+
+    public void setjTextField6(Double d) {
+        jtVX.setText(String.valueOf(d));
+    }
+
+    public void setjTextField7(Double d) {
+        jtX0.setText(String.valueOf(d));
+    }
+
+    public void setjTextField8(Double d) {
+        jtVY0.setText(String.valueOf(d));
+    }
+
+    public void setjTextField9(Double d) {
+        jtAX.setText(String.valueOf(d));
+    }
+
+    public void setjTextField10(Double d) {
+        jtAY.setText(String.valueOf(d));
+    }
+
+    public void setjTextField11(Double d) {
+        jtT.setText(String.valueOf(d));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == timer) {
+            repaint();
+        }
+    }
 }
