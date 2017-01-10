@@ -62,105 +62,120 @@ public class Kinematics {
     }
 
     public void calculate(KinematicsGUI k) {
-        if (ax != null && ax == 0) {
-            if (vx == null) {
-                vx = vx0;
-                k.setjTextField6(vx);
-            } else {
-                vx0 = vx;
-                k.setjTextField3(vx0);
-            }
-        } else {
-            try {
-                vx = ax * t + vx0;
-                k.setjTextField6(vx);
-            } catch (NullPointerException e) {
-            }
-            try {
-                vx0 = vx - ax * t;
-                k.setjTextField3(vx0);
-            } catch (NullPointerException e) {
-            }
-        }
-        if (vx != null && vx == 0 && ax != null && ax != 0) {
-            if (x == null) {
-                x = x0;
-                k.setjTextField1(x);
-            } else {
-                x0 = x;
-            }
-        } else {
-            try {
-                x = vx * t + x0;
-                k.setjTextField1(x);
-            } catch (NullPointerException e) {
-            }
-            try {
-                x0 = x - vx * t;
-            } catch (NullPointerException e) {
-            }
-        }
-        if (ay != null && ay == 0) {
-            if (vy == null) {
-                vy = vy0;
-                k.setjTextField5(vy);
-            } else {
-                vy0 = vy;
-            }
-        } else {
-            try {
-                vy = ay * t + vy0;
-                k.setjTextField5(vy);
-            } catch (NullPointerException e) {
-            }
-            try {
-                vy0 = vy - ay * t;
-            } catch (NullPointerException e) {
-            }
-        }
-        if (vy != null && vy == 0 && ay != null && ay != 0) {
-            if (y == null) {
-                y = y0;
-                k.setjTextField2(y);
-            } else {
-                y0 = y;
-            }
-        } else {
-            try {
-                y = vy * t + y0;
-                k.setjTextField2(y);
-            } catch (NullPointerException e) {
-            }
-            try {
-                y0 = y - vy * t;
-            } catch (NullPointerException e) {
-            }
-        }
-
+//        if (ax != null && ax == 0) {
+//            if (vx == null) {
+//                vx = vx0;
+//                k.setjTextField6(vx);
+//            } else {
+//                vx0 = vx;
+//                k.setjTextField3(vx0);
+//            }
+//        } else {
+//            try {
+//                vx = ax * t + vx0;
+//                k.setjTextField6(vx);
+//            } catch (NullPointerException e) {
+//            }
+//            try {
+//                vx0 = vx - ax * t;
+//                k.setjTextField3(vx0);
+//            } catch (NullPointerException e) {
+//            }
+//        }
+//        if (vx != null && vx == 0 && ax != null && ax != 0) {
+//            if (x == null) {
+//                x = x0;
+//                k.setjTextField1(x);
+//            } else {
+//                x0 = x;
+//            }
+//        } else {
+//            try {
+//                x = vx * t + x0;
+//                k.setjTextField1(x);
+//            } catch (NullPointerException e) {
+//            }
+//            try {
+//                x0 = x - vx * t;
+//            } catch (NullPointerException e) {
+//            }
+//        }
+//        if (ay != null && ay == 0) {
+//            if (vy == null) {
+//                vy = vy0;
+//                k.setjTextField5(vy);
+//            } else {
+//                vy0 = vy;
+//            }
+//        } else {
+//            try {
+//                vy = ay * t + vy0;
+//                k.setjTextField5(vy);
+//            } catch (NullPointerException e) {
+//            }
+//            try {
+//                vy0 = vy - ay * t;
+//            } catch (NullPointerException e) {
+//            }
+//        }
+//        if (vy != null && vy == 0 && ay != null && ay != 0) {
+//            if (y == null) {
+//                y = y0;
+//                k.setjTextField2(y);
+//            } else {
+//                y0 = y;
+//            }
+//        } else {
+//            try {
+//                y = vy * t + y0;
+//                k.setjTextField2(y);
+//            } catch (NullPointerException e) {
+//            }
+//            try {
+//                y0 = y - vy * t;
+//            } catch (NullPointerException e) {
+//            }
+//        }
+//
+//        try {
+//            vx = Math.pow(Math.pow(vx0, 2) + 2 * ax * (x - x0), 1 / 2);
+//            k.setjTextField6(vx);
+//        } catch (NullPointerException e) {
+//        }
+//        try {
+//            vy = Math.pow(Math.pow(vy0, 2) + 2 * ay * (y - y0), 1 / 2);
+//            k.setjTextField5(vy);
+//        } catch (NullPointerException e) {
+//        }
+//
+//        try {
+//            x = x0 + vx0 * t + 1 / 2 * ax * Math.pow(t, 2);
+//            k.setjTextField1(x);
+//        } catch (NullPointerException e) {
+//        }
+//
+//        try {
+//            y = y0 + vy0 * t + 1 / 2 * ay * Math.pow(t, 2);
+//            k.setjTextField2(y);
+//        } catch (NullPointerException e) {
+//        }
         try {
-            vx = Math.pow(Math.pow(vx0, 2) + 2 * ax * (x - x0), 1 / 2);
-            k.setjTextField6(vx);
+            if (x != x0 + vx0 * t + 1 / 2 * ax * Math.pow(t, 2) || Math.pow(vx,2) != Math.pow(vx0, 2) + 2 * ax * (x - x0)) {
+                k.setCompX(false);
+            }
         } catch (NullPointerException e) {
         }
         try {
-            vy = Math.pow(Math.pow(vy0, 2) + 2 * ay * (y - y0), 1 / 2);
-            k.setjTextField5(vy);
+            if (y != y0 + vy0 * t + 1 / 2 * ay * Math.pow(t, 2) || Math.pow(vy,2) != Math.pow(vy0, 2) + 2 * ay * (y - y0)) {
+                k.setCompY(false);
+            }
         } catch (NullPointerException e) {
         }
-
-        try {
-            x = x0 + vx0 * t + 1 / 2 * ax * Math.pow(t, 2);
-            k.setjTextField1(x);
-        } catch (NullPointerException e) {
-        }
-
-        try {
-            y = y0 + vy0 * t + 1 / 2 * ay * Math.pow(t, 2);
-            k.setjTextField2(y);
-        } catch (NullPointerException e) {
-        }
-        k.setXFrames(this.calcXFrames());
-        k.setYFrames(this.calcYFrames());
+        
+//        k.canPaintKin = true;
+//        k.repaint();
+        //k.setXFrames(this.calcXFrames());
+        //k.setYFrames(this.calcYFrames());
     }
 
     public Double setX(String s) {

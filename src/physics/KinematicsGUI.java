@@ -24,6 +24,23 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
     private Double[] xframes, yframes;
     private long time;
     private Timer timer;
+    private boolean compX, compY;
+
+    public boolean isCompX() {
+        return compX;
+    }
+
+    public void setCompX(boolean compX) {
+        this.compX = compX;
+    }
+
+    public boolean isCompY() {
+        return compY;
+    }
+
+    public void setCompY(boolean compY) {
+        this.compY = compY;
+    }
 
     /**
      * Creates new form KinematicsGUI
@@ -36,8 +53,9 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         initComponents();
         this.setSize(new Dimension(500, 500));
         time = System.nanoTime();
-        timer = new Timer(1, this);
-
+        timer = new Timer(1000, this);
+        timer.start();
+        compX = compY = true;
     }
 
     public void setXFrames(Double[] x) {
@@ -54,6 +72,9 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         yframes = y;
     }
 
+    //timmys var
+    public boolean canPaintKin = false;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,15 +88,29 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         if (cx == 0 && cy == 0) {
             g.fillOval(0, 800, 100, 100);
         }
-        while (xframes[cx] != null && xframes[cx] < time / 1000000000) {
-            cx++;
+        if (compX) {
+            while (xframes[cx] != null && xframes[cx] < time / 1000000000) {
+                cx++;
+            }
+        } else {
+            g.drawString("X Does Not Compute", 100, 100);
         }
-        while (yframes[cy] != null && yframes[cy] < time * 1000000) {
-            cy++;
+        if (compY) {
+            while (yframes[cy] != null && yframes[cy] < time * 1000000) {
+                cy++;
+            }
+        } else {
+            g.drawString("Y Does Not Compute", 100, 200);
         }
         if (cx > 0 && cy > 0) {
             g.fillOval(cx, cy, 100, 100);
         }
+        
+//        if(canPaintKin) {
+//            g.setColor(Color.BLUE);
+//            g.fillRect(200, 200, 100, 100);
+//        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -454,5 +489,13 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         if (e.getSource() == timer) {
             repaint();
         }
+    }
+    
+    private int theTime = 0;
+    
+    @Override
+    public void repaint() {
+        theTime += 1;
+        System.out.println(theTime);
     }
 }
