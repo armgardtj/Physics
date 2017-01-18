@@ -5,11 +5,14 @@
  */
 package physics;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author John
  */
-public class EnergyGUI extends javax.swing.JPanel {
+public class EnergyGUI extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form EnergyGUI
@@ -38,6 +41,11 @@ public class EnergyGUI extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
