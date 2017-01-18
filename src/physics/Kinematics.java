@@ -13,55 +13,30 @@ public class Kinematics {
 
     private Double x, x0, y, y0, vx, vx0, vy, vy0, ax, ay, t;
 
-    public Double getX() {
-        return x;
-    }
-
-    public Double getX0() {
-        return x0;
-    }
-
-    public Double getY() {
-        return y;
-    }
-
-    public Double getY0() {
-        return y0;
-    }
-
-    public Double getVx() {
-        return vx;
-    }
-
-    public Double getVx0() {
-        return vx0;
-    }
-
-    public Double getVy() {
-        return vy;
-    }
-
-    public Double getVy0() {
-        return vy0;
-    }
-
-    public Double getAx() {
-        return ax;
-    }
-
-    public Double getAy() {
-        return ay;
-    }
-
-    public Double getT() {
-        return t;
-    }
-
     public Kinematics() {
         x = x0 = y = y0 = vx = vx0 = vy = vy0 = ax = ay = t = null;
+        //x = vx = vx0 = t = y = vy = vy0 = 1.0;
+        //x0 = ax = y0 = ay = 0.0;
     }
 
-    public void calculate(KinematicsGUI k) {
+    public int calcX(double time, KinematicsGUI k) {
+        if (verify(k)) {
+            System.out.println(ax);
+            double n = x0 + vx0 * time + 1 / 2 * ax * time;
+            return (int) (n * 1000 / (x - x0));
+        }
+        return -1;
+    }
+
+    public int calcY(double time, KinematicsGUI k) {
+        if (verify(k)) {
+            double n = y0 + vy0 * time + 1 / 2 * ay * time;
+            return (int) (800 - (n * 800 / (y - y0)));
+        }
+        return -1;
+    }
+
+    public boolean verify(KinematicsGUI k) {
 //        if (ax != null && ax == 0) {
 //            if (vx == null) {
 //                vx = vx0;
@@ -160,22 +135,64 @@ public class Kinematics {
 //        } catch (NullPointerException e) {
 //        }
         try {
-            if (x != x0 + vx0 * t + 1 / 2 * ax * Math.pow(t, 2) || Math.pow(vx,2) != Math.pow(vx0, 2) + 2 * ax * (x - x0)) {
-                k.setCompX(false);
+            if (x != x0 + vx0 * t + 1 / 2 * ax * Math.pow(t, 2) /*|| Math.pow(vx, 2) != Math.pow(vx0, 2) + 2 * ax * (x - x0)*/) {
+                return false;
             }
         } catch (NullPointerException e) {
+            return false;
         }
         try {
-            if (y != y0 + vy0 * t + 1 / 2 * ay * Math.pow(t, 2) || Math.pow(vy,2) != Math.pow(vy0, 2) + 2 * ay * (y - y0)) {
-                k.setCompY(false);
+            if (y != y0 + vy0 * t + 1 / 2 * ay * Math.pow(t, 2) /*|| Math.pow(vy, 2) != Math.pow(vy0, 2) + 2 * ay * (y - y0)*/) {
+                return false;
             }
         } catch (NullPointerException e) {
+            return false;
         }
-        
-//        k.canPaintKin = true;
-//        k.repaint();
-        //k.setXFrames(this.calcXFrames());
-        //k.setYFrames(this.calcYFrames());
+        return true;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getX0() {
+        return x0;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
+    public Double getY0() {
+        return y0;
+    }
+
+    public Double getVx() {
+        return vx;
+    }
+
+    public Double getVx0() {
+        return vx0;
+    }
+
+    public Double getVy() {
+        return vy;
+    }
+
+    public Double getVy0() {
+        return vy0;
+    }
+
+    public Double getAx() {
+        return ax;
+    }
+
+    public Double getAy() {
+        return ay;
+    }
+
+    public Double getT() {
+        return t;
     }
 
     public Double setX(String s) {
@@ -278,56 +295,5 @@ public class Kinematics {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    public Double[] calcXFrames() {
-        if (x == null || x0 == null || vx == null || vx0 == null || ax == null || t == null) {
-            return null;
-        }
-        Double[] frames = new Double[1000];
-        int n = 0;
-        while (n < 1000) {
-            Double a = .5 * ax;
-            Double b = vx0;
-            Double c = (x - x0) * n / 1000;
-
-            //Finding out the roots
-            double temp1 = Math.sqrt(b * b - 4 * a * c);
-
-            double root1 = (-b + temp1) / (2 * a);
-            double root2 = (-b - temp1) / (2 * a);
-
-            frames[n] = (root1 < root2) ? root2 : root1;
-            n++;
-        }
-        return frames;
-    }
-
-    public Double[] calcYFrames() {
-        if (y == null || y0 == null || vy == null || vy0 == null || ay == null || t == null) {
-            return null;
-        }
-        Double[] frames = new Double[1000];
-        int n = 0;
-        while (n < 1000) {
-            Double a = .5 * ay;
-            Double b = vy0;
-            Double c = (y - y0) * n / 1000;
-
-            //Finding out the roots
-            double temp1 = Math.sqrt(b * b - 4 * a * c);
-
-            double root1 = (-b + temp1) / (2 * a);
-            double root2 = (-b - temp1) / (2 * a);
-
-            frames[n] = (root1 < root2) ? root2 : root1;
-            n++;
-        }
-        return frames;
-    }
-
-    public Double[] getCoords() {
-        Double[] c = {x, x0, y, y0};
-        return c;
     }
 }
