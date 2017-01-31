@@ -6,7 +6,6 @@
 package physics;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +20,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
     private final Kinematics k;
     private int theTime, x, y;
     private final Timer timer;
+    private boolean calc;
 
     public KinematicsGUI() {
         k = new Kinematics();
@@ -30,6 +30,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         timer.start();
         x = 0;
         y = 800;
+        calc = false;
     }
 
     @Override
@@ -39,6 +40,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
         g.setColor(Color.red);
         x = k.calcX(theTime / 1000.0, this);
         y = k.calcY(theTime / 1000.0, this);
+        //System.out.println(x+"\n"+y+"\n");
         g.fillOval((x == -1) ? 0 : x, (y == -1) ? 800 : y, 100, 100);
     }
 
@@ -46,6 +48,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
             theTime += 1;
+            System.out.println(theTime);
             if (k.getT() != null && theTime / 1000 >= k.getT()) {
                 timer.restart();
                 theTime = 0;
@@ -55,7 +58,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
@@ -217,7 +220,7 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jtY0)
-                            .addComponent(jtX0, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtX0))
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
@@ -233,8 +236,8 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtVX0)
-                    .addComponent(jtVY0, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtVY0)
+                    .addComponent(jtVX0))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -289,69 +292,69 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
                 .addComponent(jButton1)
                 .addContainerGap())
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         NewJFrame.clear(this, new Menu());
-    }//GEN-LAST:event_jButton1ActionPerformed
-    private void jtXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtXActionPerformed
+    }                                        
+    private void jtXActionPerformed(java.awt.event.ActionEvent evt) {                                    
         jtX.setText(String.valueOf(k.setX(jtX.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtXActionPerformed
-    private void jtVXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVXActionPerformed
+    }                                   
+    private void jtVXActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtVX.setText(String.valueOf(k.setVX(jtVX.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtVXActionPerformed
-    private void jtYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtYActionPerformed
+    }                                    
+    private void jtYActionPerformed(java.awt.event.ActionEvent evt) {                                    
         jtY.setText(String.valueOf(k.setY(jtY.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtYActionPerformed
-    private void jtX0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtX0ActionPerformed
+    }                                   
+    private void jtX0ActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtX0.setText(String.valueOf(k.setX0(jtX0.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtX0ActionPerformed
-    private void jtY0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtY0ActionPerformed
+    }                                    
+    private void jtY0ActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtY0.setText(String.valueOf(k.setY0(jtY0.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtY0ActionPerformed
-    private void jtVYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVYActionPerformed
+    }                                    
+    private void jtVYActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtVY.setText(String.valueOf(k.setVY(jtVY.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtVYActionPerformed
-    private void jtVX0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVX0ActionPerformed
+    }                                    
+    private void jtVX0ActionPerformed(java.awt.event.ActionEvent evt) {                                      
         jtVX0.setText(String.valueOf(k.setVX0(jtVX0.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtVX0ActionPerformed
-    private void jtAXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtAXActionPerformed
+    }                                     
+    private void jtAXActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtAX.setText(String.valueOf(k.setAX(jtAX.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtAXActionPerformed
-    private void jtVY0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtVY0ActionPerformed
+    }                                    
+    private void jtVY0ActionPerformed(java.awt.event.ActionEvent evt) {                                      
         jtVY0.setText(String.valueOf(k.setVY0(jtVY0.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtVY0ActionPerformed
-    private void jtAYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtAYActionPerformed
+    }                                     
+    private void jtAYActionPerformed(java.awt.event.ActionEvent evt) {                                     
         jtAY.setText(String.valueOf(k.setAY(jtAY.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtAYActionPerformed
-    private void jtTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtTActionPerformed
+    }                                    
+    private void jtTActionPerformed(java.awt.event.ActionEvent evt) {                                    
         jtT.setText(String.valueOf(k.setT(jtT.getText())));
         k.verify(this);
         repaint();
-    }//GEN-LAST:event_jtTActionPerformed
+    }                                   
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -375,10 +378,14 @@ public class KinematicsGUI extends javax.swing.JPanel implements ActionListener 
     private javax.swing.JTextField jtX0;
     private javax.swing.JTextField jtY;
     private javax.swing.JTextField jtY0;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
     public Kinematics getK() {
         return this.k;
+    }
+    
+    public boolean getVarCalc() {
+        return calc;
     }
 
     public void setjTextField1(Double d) {
