@@ -19,10 +19,10 @@ public class Kinematics {
 //        x0 = y0 = vx0 = vy0 = 0.0;
 //        vx = vy = ax = ay = 2.0;
 //
-        x = t = 2.0;
-        vx = vx0 = vy0 = 1.0;
-        y = x0 = y0 = ax = 0.0;
-        vy = ay = -1.0;
+//        x = t = 2.0;
+//        vx = vx0 = vy0 = 1.0;
+//        y = x0 = y0 = ax = 0.0;
+//        vy = ay = -1.0;
     }
 
     public int calcX(double time, KinematicsGUI k) {
