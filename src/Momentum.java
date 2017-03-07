@@ -1,4 +1,4 @@
-package physics;
+
 
 import java.awt.*;
 import javax.swing.*;
