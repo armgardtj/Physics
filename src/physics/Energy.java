@@ -1,3 +1,5 @@
+package physics;
+
 
 import java.awt.*;
 import javax.swing.*;
@@ -8,7 +10,7 @@ import javax.imageio.*;
 import java.io.*;
 
 /**
- * Forces.java
+ * Energy.java
  *
  * @author: Assignment #:
  *
@@ -16,9 +18,9 @@ import java.io.*;
  *
  *
  */
-public class Forces {
+public class Energy {
 
-    public Forces() {
+    public Energy() {
 
     }
 }
