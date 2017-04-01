@@ -24,7 +24,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private final Timer timer;
     private int x1, x2, theTime;
     private int type;
-    
+
     public MomentumGUI() {
         m = new Momentum();
         initComponents();
@@ -37,44 +37,37 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         timer.start();
         theTime = 0;
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (type == 1){
-//                x1 = m.calcX1(theTime, type);
-//                x2 = m.calcX2(theTime, type);
-                g.setColor(Color.black);
-                g.drawLine(0, 900, 1000, 900);
-                g.setColor(Color.red);
-                g.fillOval(x1, 800, 100, 100);
-                g.setColor(Color.blue);
-                g.fillOval(x2, 800, 100, 100);
-            }
-        else if (type == 2){
-                g.setColor(Color.black);
-                g.drawLine(0, 900, 1000, 900);
-                g.setColor(Color.red);
-                g.fillOval(x1, 800, 100, 100);
-                g.setColor(Color.blue);
-                g.fillOval(x2, 800, 100, 100);
-            }
-        else if (type == 3){
-                g.setColor(Color.black);
-                g.drawLine(0, 900, 1000, 900);
-                g.setColor(Color.red);
-                g.fillOval(x1, 800, 100, 100);
-                g.setColor(Color.blue);
-                g.fillOval(x2, 800, 100, 100);
-            }
+        if (!m.calculate()) {
+            x1 = 0;
+            x2 = 900;
+        } else {
+            x1 = m.calcX1(theTime, type);
+            x2 = m.calcX2(theTime, type);
         }
-    
+        g.fillOval(495, 895, 10, 10);
+        g.drawString("0", 497, 915);
+
+        g.setColor(Color.black);
+        g.drawLine(0, 900, 1000, 900);
+        g.setColor(Color.red);
+        g.fillOval(x1, 800, 100, 100);
+        g.setColor(Color.blue);
+        g.fillOval(x2, 800, 100, 100);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
             repaint();
             theTime++;
+            if (theTime >= 10000) {
+                timer.restart();
+                theTime = 0;
+            }
         }
     }
 
@@ -99,6 +92,18 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         jLabel4 = new javax.swing.JLabel();
         jtM2 = new javax.swing.JTextField();
         jtV2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtD = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+
+        setPreferredSize(new java.awt.Dimension(1000, 1000));
 
         groupType.add(ButtonElastic);
         ButtonElastic.setText("Elastic");
@@ -145,37 +150,87 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
             }
         });
 
+        jLabel5.setText("d:");
+
+        jtD.setText(String.valueOf(m.getD()));
+        jtD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtDActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("p1:");
+
+        jLabel8.setText("p2:");
+
+        jLabel9.setText(String.valueOf(m.getP2()));
+
+        jLabel10.setText(String.valueOf(m.getP1()));
+
+        jLabel11.setText("CoM x:");
+
+        jLabel12.setText(String.valueOf(m.getCl()));
+
+        jLabel13.setText("CoM v:");
+
+        jLabel14.setText(String.valueOf(m.getCv()));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jtM1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jtV1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                                .addGap(468, 468, 468)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jtM2, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                                .addComponent(jtV2))
+                            .addComponent(jLabel9))
+                        .addGap(205, 205, 205))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(338, 338, 338)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtD, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(249, 249, 249)
+                .addComponent(jLabel11)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addGap(136, 136, 136)
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(852, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ButtonExplosion)
                     .addComponent(ButtonInelastic, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonElastic, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(54, 54, 54))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtV1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtV2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(218, 218, 218))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +253,23 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jtV2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(725, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jtD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
+                .addGap(79, 79, 79)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -218,9 +289,14 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jtM2ActionPerformed
 
     private void jtV2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtV2ActionPerformed
-         jtV2.setText(String.valueOf(m.setV2(jtV2.getText())));
+        jtV2.setText(String.valueOf(m.setV2(jtV2.getText())));
         repaint();
     }//GEN-LAST:event_jtV2ActionPerformed
+
+    private void jtDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDActionPerformed
+        jtD.setText(String.valueOf(m.setD(jtD.getText())));
+        repaint();
+    }//GEN-LAST:event_jtDActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -229,35 +305,45 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JRadioButton ButtonInelastic;
     private javax.swing.ButtonGroup groupType;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField jtD;
     private javax.swing.JTextField jtM1;
     private javax.swing.JTextField jtM2;
     private javax.swing.JTextField jtV1;
     private javax.swing.JTextField jtV2;
     // End of variables declaration//GEN-END:variables
 
-    private void buttonElasticActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void buttonElasticActionPerformed(java.awt.event.ActionEvent evt) {
         type = 1;
-    }                                             
+    }
 
-    private void buttonInelasticActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void buttonInelasticActionPerformed(java.awt.event.ActionEvent evt) {
         type = 2;
-    }                                               
+    }
 
-    private void buttonExplosionActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void buttonExplosionActionPerformed(java.awt.event.ActionEvent evt) {
         type = 3;
-    }                                                                                                                                          
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        NewJFrame.clear(this, new Menu());
-    }                                        
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        NewJFrame.clear(this, new Menu());
+    }
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         timer.restart();
         theTime = 0;
-    }                                        
+    }
 
     public void setjtM1(Double d) {
         jtM1.setText(String.valueOf(d));
@@ -274,5 +360,5 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     public void setjtV2(Double d) {
         jtV2.setText(String.valueOf(d));
     }
-    
+
 }
