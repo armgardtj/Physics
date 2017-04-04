@@ -17,7 +17,7 @@ public class Momentum {
         m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = null;
         //m1 = m2 = v1 = 1.0;
         //v2 = -1.0;
-        d = dc = 9.0;
+        d = dc = 8.0;
     }
 
     public int calcX1(double time, int type) {
@@ -26,13 +26,11 @@ public class Momentum {
         if (type == 1) {
             if (dc > 0) {
             x = v1 * time*100;
-            return (int) (x);
             } else {
-                x = v1c * time;
-                return (int)(500-x);
+                x = v1c * time*100 + 500;
             }
         }
-        return 0;
+        return (int)(x);
     }
 
     public int calcX2(double time, int type) {
@@ -42,7 +40,7 @@ public class Momentum {
             x = v2 * time*100;
             return (int) (900 + x);
             } else {
-                x = v1c * time;
+                x = v2c * time*100;
                 return (int)(500+x);
             }
         }
@@ -50,8 +48,8 @@ public class Momentum {
     }
 
     public void distanceCalc(double time) {
-        dc = d - Math.abs(v1 * time) - Math.abs(v2 * time);
-        System.out.println(dc);
+        dc = d - Math.abs(v1 * time) - Math.abs(v2 * time);     
+        
     }
 
     public boolean calculate() {

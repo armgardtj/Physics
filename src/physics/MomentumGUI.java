@@ -52,9 +52,11 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
             x2 = m.calcX2(theTime/1000.0, type);
             if (!active){
                 timer.restart();
+                theTime=0;
                 active = true;
             }
         }
+        System.out.println(x1 + " "+x2);
         g.setColor(Color.black);
         g.fillOval(495, 895, 10, 10);
         g.drawString("0", 497, 915);
