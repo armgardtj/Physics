@@ -14,7 +14,7 @@ public class Kinematics {
     private Double x, x0, y, y0, xmin, ymin, xmax, ymax, vx, vx0, vy, vy0, ax, ay, t;
 
     public Kinematics() {
-        x = x0 = y = y0 = xmin = ymin = xmax = ymax = vx = vx0 = vy = vy0 = ax = ay = t = null;
+        x = x0 = y = y0 = xmin = ymin = xmax = ymax = vx = vx0 = vy = vy0 = ax = ay = t = 0.0;
 //        x = y = t = 1.0;
 //        x0 = y0 = vx0 = vy0 = 0.0;
 //        vx = vy = ax = ay = 2.0;

@@ -24,6 +24,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private final Timer timer;
     private int x1, x2, theTime;
     private int type;
+    private boolean active;
 
     public MomentumGUI() {
         m = new Momentum();
@@ -34,8 +35,9 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         groupType.add(ButtonExplosion);
         ButtonElastic.setSelected(true);
         timer = new Timer(1, this);
-        timer.start();
         theTime = 0;
+        timer.start();
+        active = false;
     }
 
     @Override
@@ -44,14 +46,25 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         if (!m.calculate()) {
             x1 = 0;
             x2 = 900;
+            active = false;
         } else {
-            x1 = m.calcX1(theTime, type);
-            x2 = m.calcX2(theTime, type);
+            x1 = m.calcX1(theTime/1000.0, type);
+            x2 = m.calcX2(theTime/1000.0, type);
+            if (!active){
+                timer.restart();
+                active = true;
+            }
         }
+        g.setColor(Color.black);
         g.fillOval(495, 895, 10, 10);
         g.drawString("0", 497, 915);
-
-        g.setColor(Color.black);
+        g.drawString("-5m", 250, 915);
+        g.drawString("5m", 750, 915);
+        g.drawLine(50,925,950,925);
+        g.drawLine(50,900,50,925);
+        g.drawLine(500,900,500,925);
+        g.drawLine(950,900,950,925);
+        
         g.drawLine(0, 900, 1000, 900);
         g.setColor(Color.red);
         g.fillOval(x1, 800, 100, 100);
@@ -92,8 +105,6 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         jLabel4 = new javax.swing.JLabel();
         jtM2 = new javax.swing.JTextField();
         jtV2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jtD = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -102,6 +113,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1000, 1000));
 
@@ -150,15 +162,6 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
             }
         });
 
-        jLabel5.setText("d:");
-
-        jtD.setText(String.valueOf(m.getD()));
-        jtD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtDActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("p1:");
 
         jLabel8.setText("p2:");
@@ -175,6 +178,13 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
 
         jLabel14.setText(String.valueOf(m.getCv()));
 
+        jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,45 +195,27 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                     .addComponent(jLabel7)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jtM1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jtV1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                .addGap(468, 468, 468)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel8)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jtM2, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                .addComponent(jtV2))
-                            .addComponent(jLabel9))
-                        .addGap(205, 205, 205))
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(338, 338, 338)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtD, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(249, 249, 249)
-                .addComponent(jLabel11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jtV1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jtM1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel12)
-                .addGap(136, 136, 136)
-                .addComponent(jLabel13)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jtM2)
+                        .addComponent(jtV2))
+                    .addComponent(jLabel9))
+                .addGap(205, 205, 205))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -231,6 +223,21 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                     .addComponent(ButtonInelastic, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonElastic, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(54, 54, 54))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(249, 249, 249)
+                        .addComponent(jLabel11)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12)
+                        .addGap(136, 136, 136)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel14))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton1)))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,16 +255,13 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                     .addComponent(jLabel3)
                     .addComponent(jtM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtV1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jtV2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jtD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(102, 102, 102)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtV1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(jtV2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(148, 148, 148)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
@@ -269,7 +273,9 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14))
-                .addContainerGap(495, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 413, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(24, 24, 24))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -293,10 +299,9 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         repaint();
     }//GEN-LAST:event_jtV2ActionPerformed
 
-    private void jtDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtDActionPerformed
-        jtD.setText(String.valueOf(m.setD(jtD.getText())));
-        repaint();
-    }//GEN-LAST:event_jtDActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        NewJFrame.clear(this, new Menu());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -304,6 +309,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JRadioButton ButtonExplosion;
     private javax.swing.JRadioButton ButtonInelastic;
     private javax.swing.ButtonGroup groupType;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -313,11 +319,9 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jtD;
     private javax.swing.JTextField jtM1;
     private javax.swing.JTextField jtM2;
     private javax.swing.JTextField jtV1;
@@ -334,15 +338,6 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
 
     private void buttonExplosionActionPerformed(java.awt.event.ActionEvent evt) {
         type = 3;
-    }
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        NewJFrame.clear(this, new Menu());
-    }
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        timer.restart();
-        theTime = 0;
     }
 
     public void setjtM1(Double d) {

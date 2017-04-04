@@ -14,40 +14,44 @@ public class Momentum {
     private Double m1, m2, v1, v2, v1c, v2c, p1, p2, p1c, p2c, cl, cv, d, dc, x1, x2; //c means current (final?)
 
     public Momentum() {
-        m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = 0.0;
+        m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = null;
+        //m1 = m2 = v1 = 1.0;
+        //v2 = -1.0;
+        d = dc = 9.0;
     }
 
-    public int calcX1(int time, int type) {
+    public int calcX1(double time, int type) {
         double x = 0.0;
+        distanceCalc(time);
         if (type == 1) {
-            //if (dc > 0) {
-            x = v1 * time;
+            if (dc > 0) {
+            x = v1 * time*100;
             return (int) (x);
-            //} else {
-            //    x = v1c * time;
-            //    return (int)(500-x);
-            //}
+            } else {
+                x = v1c * time;
+                return (int)(500-x);
+            }
         }
         return 0;
     }
 
-    public int calcX2(int time, int type) {
+    public int calcX2(double time, int type) {
         double x = 0.0;
         if (type == 1) {
-            //if (dc > 0) {
-            x = v1 * time;
-            return (int) (1000 + x);
-            //} else {
-            //    x = v1c * time;
-            //    return (int)(500+x);
-            //}
+            if (dc > 0) {
+            x = v2 * time*100;
+            return (int) (900 + x);
+            } else {
+                x = v1c * time;
+                return (int)(500+x);
+            }
         }
-        distanceCalc(time);
         return 900;
     }
 
-    public void distanceCalc(int time) {
+    public void distanceCalc(double time) {
         dc = d - Math.abs(v1 * time) - Math.abs(v2 * time);
+        System.out.println(dc);
     }
 
     public boolean calculate() {
@@ -111,6 +115,7 @@ public class Momentum {
     public Double setV1(String s) {
         try {
             v1 = Double.parseDouble(s);
+            v1 = Math.abs(v1);
             return v1;
         } catch (NumberFormatException e) {
             return null;
