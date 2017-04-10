@@ -11,55 +11,94 @@ package physics;
  */
 public class Momentum {
 
-    private Double m1, m2, v1, v2, v1c, v2c, p1, p2, p1c, p2c, cl, cv, d, dc, x1, x2; //c means current (final?)
+    private Double m1, m2, v1, v2, v1c, v2c, p1, p2, cl, cv, d, dc, xp1, xp2; //c means current (final?)
 
     public Momentum() {
-        m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = null;
+        m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = 0.0;
+        xp1 = 0.0;
+        xp2 = 900.0;
         //m1 = m2 = v1 = 1.0;
         //v2 = -1.0;
+
+        m1 = m2 = 1.0;
+        v1 = 2.0;
+        //v2 = -4.0;
         d = dc = 8.0;
     }
 
-    public int calcX1(double time, int type) {
-        double x = 0.0;
-        distanceCalc(time);
-        if (type == 1) {
-            if (dc > 0) {
-            x = v1 * time*100;
-            } else {
-                x = v1c * time*100 + 500;
-            }
+    public int calcX1(int type) {
+        Double x = 0.0;
+        if (dc > 0) {
+            x = v1 / (1000 / 100) + xp1;
+        } else {
+            x = v1c / 10 + xp1;
         }
-        return (int)(x);
+        xp1 = x;
+        return x.intValue();
     }
 
-    public int calcX2(double time, int type) {
-        double x = 0.0;
-        if (type == 1) {
-            if (dc > 0) {
-            x = v2 * time*100;
-            return (int) (900 + x);
-            } else {
-                x = v2c * time*100;
-                return (int)(500+x);
-            }
+    public int calcX2(int type) {
+        Double x = 900.0;
+        if (dc > 0) {
+            x = v2 / 10 + xp2;
+        } else {
+            x = v2c / 10 + xp2;
         }
-        return 900;
+        xp2 = x;
+        return x.intValue();
     }
 
-    public void distanceCalc(double time) {
-        dc = d - Math.abs(v1 * time) - Math.abs(v2 * time);     
-        
+    public void distanceCalc(Double time, int type) {
+        dc = d - Math.abs(v1 * time) - Math.abs(v2 * time);
+        if (type == 3) {
+            dc = 0.0;
+        }
+       //System.out.println(v1+" "+v2+" "+v1c+" "+v2c);
+        //System.out.println(p1+" "+p2);
     }
 
-    public boolean calculate() {
+    public void reset(int type) {
+        if (type == 3) {
+            xp1 = 400.0;
+            xp2 = 500.0;
+        } else {
+            xp1 = 0.0;
+            xp2 = 900.0;
+        }
+    }
+
+    public boolean calculate(int type) {
+        if (type < 1 || type > 3) {
+            return false;
+        }
         try {
-            p1 = m1 * v1;
-            p2 = m2 * v2;
-            cl = (m1 * d / 2 + m2 * d / 2) / (m1 * m2);
+            switch (type) {
+                case 1:
+                    v1c = ((m1 - m2) * v1 + 2 * m2 * v2) / (m1 + m2);
+                    v2c = (2 * m1 * v1 - (m1 - m2) * v2) / (m1 + m2);
+                    break;
+                case 2:
+                    v1c = v2c = v1 + v2;
+                    break;
+                case 3:
+                    v1c = p1 / m1;
+                    v2c = p2 / m2;
+                    break;
+            }
+            if (dc > 0) {
+                p1 = m1 * v1;
+                p2 = m2 * v2;
+            } else {
+                if (type == 3) {
+                    p1 = p2;
+                } else {
+                    p1 = m1 * v1c;
+                    p2 = m2 * v2c;
+                }
+            }
+            //System.out.println(p1+" "+p2);
+            //cl = ((m1 * xp1 / 100) + (m2 * xp2 / 100)) / (m1 * m2);
             cv = (p1 + p2) / (m1 + m2);
-            v1c = 2 * m1 / (m1 + m2) * v1 - (m1 - m2) / (m1 + m2) * v2;
-            v2c = (m1 - m2) / (m1 + m2) * v1 + 2 * m2 / (m1 + m2) * v2;
         } catch (NullPointerException e) {
             return false;
         }
