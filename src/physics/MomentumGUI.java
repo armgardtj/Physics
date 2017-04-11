@@ -124,6 +124,14 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
         theTime = 0;
         m.reset(type);
     }
+    public void hardReset(){
+        jtM1.setText("0.0");
+        jtV1.setText("0.0");
+        jtM2.setText("0.0");
+        jtV2.setText("0.0");
+        jtP.setText("0.0");
+        m.hardReset();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -310,7 +318,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
                         .addGap(442, 442, 442)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(jtP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtP, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -388,16 +396,19 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
     private void ButtonElasticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonElasticActionPerformed
         type = 1;
         reset();
+        hardReset();
     }//GEN-LAST:event_ButtonElasticActionPerformed
 
     private void ButtonInelasticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonInelasticActionPerformed
         type = 2;
         reset();
+        hardReset();
     }//GEN-LAST:event_ButtonInelasticActionPerformed
 
     private void ButtonExplosionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonExplosionActionPerformed
         type = 3;
         reset();
+        hardReset();
     }//GEN-LAST:event_ButtonExplosionActionPerformed
 
     private void jtPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtPActionPerformed

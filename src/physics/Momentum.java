@@ -11,7 +11,7 @@ package physics;
  */
 public class Momentum {
 
-    private Double m1, m2, v1, v2, v1c, v2c, p1, p2, cl, cv, d, dc, xp1, xp2; //c means current (final?)
+    private double m1, m2, v1, v2, v1c, v2c, p1, p2, cl, cv, d, dc, xp1, xp2; //c means current (final?)
 
     public Momentum() {
         m1 = m2 = v1 = v2 = p1 = p2 = cl = cv = 0.0;
@@ -31,6 +31,8 @@ public class Momentum {
         if (dc > 0) {
             x = v1 / (1000 / 100) + xp1;
         } else {
+            if (m1 == 0)
+                return 400;
             x = v1c / 10 + xp1;
         }
         xp1 = x;
@@ -42,6 +44,8 @@ public class Momentum {
         if (dc > 0) {
             x = v2 / 10 + xp2;
         } else {
+            if (m2 == 0)
+                return 500;
             x = v2c / 10 + xp2;
         }
         xp2 = x;
@@ -65,6 +69,10 @@ public class Momentum {
             xp1 = 0.0;
             xp2 = 900.0;
         }
+        
+    }
+    public void hardReset(){
+        m1 = m2 = v1 = v2 = p1 = p2 = 0;
     }
 
     public boolean calculate(int type) {
@@ -72,6 +80,8 @@ public class Momentum {
             return false;
         }
         try {
+            System.out.println(v1c+" "+v2c);
+            System.out.println(dc+" "+p1+" "+p2);
             switch (type) {
                 case 1:
                     v1c = ((m1 - m2) * v1 + 2 * m2 * v2) / (m1 + m2);
@@ -82,7 +92,7 @@ public class Momentum {
                     break;
                 case 3:
                     v1c = p1 / m1;
-                    v2c = p2 / m2;
+                    v2c = p1 / m2;
                     break;
             }
             if (dc > 0) {
@@ -96,8 +106,8 @@ public class Momentum {
                     p2 = m2 * v2c;
                 }
             }
-            //System.out.println(p1+" "+p2);
-            //cl = ((m1 * xp1 / 100) + (m2 * xp2 / 100)) / (m1 * m2);
+            
+            //cl = ((m1 * Math.abs(5-xp1 / 100)) + (m2 * Math.abs(5-xp2 / 100))) / (m1 * m2);
             cv = (p1 + p2) / (m1 + m2);
         } catch (NullPointerException e) {
             return false;
@@ -190,38 +200,11 @@ public class Momentum {
         return p2;
     }
 
-    public Double setP2(String s) {
-        try {
-            p2 = Double.parseDouble(s);
-            return p2;
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
     public Double getCl() {
         return cl;
     }
 
-    public Double setCl(String s) {
-        try {
-            cl = Double.parseDouble(s);
-            return cl;
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
     public Double getCv() {
         return cv;
-    }
-
-    public Double setCv(String s) {
-        try {
-            cv = Double.parseDouble(s);
-            return cv;
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 }
