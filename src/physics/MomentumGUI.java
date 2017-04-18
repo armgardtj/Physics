@@ -96,7 +96,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
 
         jLabel10.setText(String.valueOf(m.getP1()));
 
-        jLabel12.setText(String.valueOf(m.getCl()));
+        jLabel12.setText(String.valueOf(m.getCOMX()));
 
         jLabel14.setText(String.valueOf(m.getCv()));
     }
@@ -239,7 +239,7 @@ public class MomentumGUI extends javax.swing.JPanel implements ActionListener {
 
         jLabel11.setText("CoM x:");
 
-        jLabel12.setText(String.valueOf(m.getCl()));
+        jLabel12.setText(String.valueOf(m.getCOMX()));
 
         jLabel13.setText("CoM v:");
 
